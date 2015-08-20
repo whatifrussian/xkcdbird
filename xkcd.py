@@ -102,12 +102,12 @@ if __name__ == "__main__":
         thumb = c["thumbnail"]
         transcription = c["transcription"]
         if c["published"] != None:
-            print u"Written content/{num:0>4}.md".format(num=cid)
             ext = str(os.path.splitext(image)[1])
-            print u"wget -c http://xkcd.ru/{img} -O comics/{num:0>4}{ext}".format(img=image, num=cid, ext=ext)
+            print u"wget -c http://xkcd.ru/{img} -O content/comics/{num:0>4}{ext}".format(img=image, num=cid, ext=ext)
             uext = str(os.path.splitext(thumb)[1])
-            print u"wget -c  http://xkcd.ru/{img} -O comics/{num:0>4}_micro{ext}".format(img=image, num=cid, ext=uext)
+            print u"wget -c  http://xkcd.ru/{img} -O content/comics/{num:0>4}_micro{ext}".format(img=image, num=cid, ext=uext)
 
-            fp = open(u"content/{num:0>4}.md".format(num=cid), "w")
+            print u"Written content/xkcd/{num:0>4}.md".format(num=cid)
+            fp = open(u"content/xkcd/{num:0>4}.md".format(num=cid), "w")
             fp.write(TEMPLATE.format(title=title, num=cid, date=published, description=text, transcription=transcription, ext=ext, mext=ext, uext=uext).encode('utf-8'))
             fp.close()
