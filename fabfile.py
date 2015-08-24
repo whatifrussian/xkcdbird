@@ -13,7 +13,7 @@ DEPLOY_PATH = env.deploy_path
 env.user="www-data"
 env.hosts = ["chtoes.li"]
 path = {
-        "dev": '/var/www/dev.xkcd.ru/public/',
+        "dev": '/var/www/xkcd.chtoes.li/public/',
         "prod": '/var/www/xkcd.ru/public/',
         }
 

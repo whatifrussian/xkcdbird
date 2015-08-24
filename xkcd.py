@@ -12,9 +12,9 @@ Slug: {num} \n\
 Category: xkcd \n\
 Date: {date} \n\
 SourceNum: {num} \n\
-Image: /comics/{num}{ext} \n\
-MicroImage: /comics/{num}_micro{uext} \n\
-MiniImage: /comics/{num}_mini{mext} \n\
+Image: /comics/{num:0>4}{ext} \n\
+MicroImage: /comics/{num:0>4}_micro{uext} \n\
+MiniImage: /comics/{num:0>4}_mini{mext} \n\
 Description: {description} \n\
 \n\
 {transcription}\
@@ -105,7 +105,7 @@ if __name__ == "__main__":
             ext = str(os.path.splitext(image)[1])
             print u"wget -c http://xkcd.ru/{img} -O content/comics/{num:0>4}{ext}".format(img=image, num=cid, ext=ext)
             uext = str(os.path.splitext(thumb)[1])
-            print u"wget -c  http://xkcd.ru/{img} -O content/comics/{num:0>4}_micro{ext}".format(img=image, num=cid, ext=uext)
+            print u"wget -c  http://xkcd.ru/{img} -O content/comics/{num:0>4}_micro{ext}".format(img=thumb, num=cid, ext=uext)
 
             print u"Written content/xkcd/{num:0>4}.md".format(num=cid)
             fp = open(u"content/xkcd/{num:0>4}.md".format(num=cid), "w")

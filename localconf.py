@@ -12,7 +12,7 @@ TIMEZONE = 'Europe/Moscow'
 DEFAULT_LANG = u'ru'
 
 PLUGIN_PATHS = [ "plugins" ]
-PLUGINS = ["neighbors", "sitemap", "xkcd_json"]
+PLUGINS = ["neighbors", "sitemap", "xkcd_json", "num_neighbors"]
 THEME = "themes/xkcd"
 PATH = 'content'
 OUTPUT_PATH = 'output'
@@ -22,6 +22,11 @@ DELETE_OUTPUT_DIRECTORY = True
 FEED_ALL_RSS = "feed/index.xml"
 CATEGORY_FEED_RSS = "feed/category/%s/index.xml"
 TAG_FEED_RSS = "feed/category/%s/index.xml"
+FEED_ATOM = None
+FEED_ALL_ATOM = None
+CATEGORY_FEED_ATOM = None
+AUTHOR_FEED_ATOM = None
+TAG_FEED_ATOM = None
 FEED_MAX_ITEMS = 5
 
 # Save as URL
@@ -40,6 +45,10 @@ AUTHORS_SAVE_AS = ''
 ARCHIVES_SAVE_AS = ''
 CATEGORIES_SAVE_AS = ''
 
+NUMS_SAVE_AS = 'num/index.html'
+IMGS_SAVE_AS = 'img/index.html'
+
+
 # Currently that isn’t not working, see
 # https://github.com/getpelican/pelican/issues/1594
 #LOG_FILTER = [
@@ -47,8 +56,6 @@ CATEGORIES_SAVE_AS = ''
 #]
 
 TEMPLATE_PAGES = {
-    'translations.html': 'nums/index.html',
-    'translations.html': 'imgs/index.html',
     '404.html': '404.html',
 }
 
