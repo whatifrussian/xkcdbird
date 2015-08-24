@@ -71,7 +71,7 @@ class SpecialPagesGenerator(Generator):
         for article in articles:
             snum[int(article.sourcenum)] = article
         
-        nums = [(num, snum.get(num, False)) for num in xrange(1, self.MAX_NUM + 1)]
+        nums = [(num, snum.get(num, False)) for num in xrange(1, self.MAX_NUM + 1) if num != 404]
 
 
         writer.write_file(nums_path, nums_template, self.context, nums=nums)

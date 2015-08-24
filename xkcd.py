@@ -3,6 +3,7 @@
 import json
 import os
 import urllib2, urllib
+import requests
 fp = open("backup.json", "r")
 backup = json.load(fp)
 fp.close()
@@ -12,6 +13,7 @@ Slug: {num} \n\
 Category: xkcd \n\
 Date: {date} \n\
 SourceNum: {num} \n\
+SourceTitle: {sourcetitle} \n\
 Image: /comics/{num:0>4}{ext} \n\
 MicroImage: /comics/{num:0>4}_micro{uext} \n\
 MiniImage: /comics/{num:0>4}_mini{mext} \n\
@@ -106,8 +108,9 @@ if __name__ == "__main__":
             print u"wget -c http://xkcd.ru/{img} -O content/comics/{num:0>4}{ext}".format(img=image, num=cid, ext=ext)
             uext = str(os.path.splitext(thumb)[1])
             print u"wget -c  http://xkcd.ru/{img} -O content/comics/{num:0>4}_micro{ext}".format(img=thumb, num=cid, ext=uext)
-
+            print u"Get xkcd.com/{}".format(cid)
+            sourcetitle = requests.get("http://xkcd.com/{num}/info.0.json".format(num=cid)).json()["title"]
             print u"Written content/xkcd/{num:0>4}.md".format(num=cid)
             fp = open(u"content/xkcd/{num:0>4}.md".format(num=cid), "w")
-            fp.write(TEMPLATE.format(title=title, num=cid, date=published, description=text, transcription=transcription, ext=ext, mext=ext, uext=uext).encode('utf-8'))
+            fp.write(TEMPLATE.format(title=title, num=cid, date=published, sourcetitle=sourcetitle, description=text, transcription=transcription, ext=ext, mext=ext, uext=uext).encode('utf-8'))
             fp.close()
