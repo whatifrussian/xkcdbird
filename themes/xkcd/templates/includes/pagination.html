@@ -1,0 +1,14 @@
+	{% if article.num_prev_article_in_category %}
+	    <li class="prev"><a href="{{ SITEURL }}/{{ article.num_prev_article_in_category.url }}" title="{{ article.num_prev_article_in_category.title }}">Раньше</a></li>
+	{% else %}
+		 <li class="prev disabled"><a title="Кончилось!">Раньше</a></li>
+	{% endif %}
+	
+	{% if article.category == "xkcd" %}
+	    <li class="contents"><a href="{{ SITEURL }}/translations/">Оглавление</a></li>
+	{% endif %}
+	{% if article.num_next_article_in_category %}    
+	    <li class="next"><a href="{{ SITEURL }}/{{ article.num_next_article_in_category.url }}" title="{{ article.num_next_article_in_category.title }}">Позже</a></li>
+	{% else %}
+		 <li class="next disabled"><a title="Скоро!">Позже</a></li>
+	{% endif %}

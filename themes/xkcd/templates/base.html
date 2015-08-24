@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords" content="xkcd, what if, what if перевод, xkcd перевод, что если">
+    <link rel="shortcut icon" href="{{ SITEURL }}/theme/img/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/theme/css/content.css">
+
+    <script type="text/javascript" src="{{ SITEURL }}/theme/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="{{ SITEURL }}/theme/js/main.js"></script>
+
+    {% if (page and page.formulas == 'True') or (article and article.formulas == 'True') %}
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        messageStyle: "none",
+        jax: ["input/TeX", "output/SVG"],
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            displayMath: [ ['$$','$$'] ],
+            processEscapes: true
+        },
+        TeX: {
+          extensions: ["AMSmath.js", "AMSsymbols.js"]
+        },
+        "SVG": { availableFonts: ["TeX"],  linebreaks: { automatic: true } }
+        });
+      </script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+    {% endif %}
+
+    {% if page %}
+        {% if page.title %}
+            <meta property="og:title" content="{{ page.title }}" />
+        {% endif %}
+        {% if page.description %}
+            <meta property="og:description" content="{{ page.description }}" />
+            <meta name="description" content="{{ page.description }}" />
+        {% endif %}
+        {% if page.url %}
+            <meta property="og:url" content="{{ SITEURL }}/{{ page.url }}" />
+            <link rel="canonical" href="{{ SITEURL }}/{{ page.url }}">
+        {% endif %}
+        {% if page.image %}
+            <meta property="og:image" content="{{ page.image }}" />
+        {% endif %}
+    {% elif article %}
+        {% if article.title %}
+            <meta property="og:title" content="{{ article.title }}" />
+        {% endif %}
+        {% if article.description %}
+            <meta property="og:description" content="{{ article.description }}" />
+            <meta name="description" content="{{ article.description }}" />
+        {% endif %}
+        {% if article.url %}
+            <meta property="og:url" content="{{ SITEURL }}/{{ article.url }}" />
+            <link rel="canonical" href="{{ SITEURL }}/{{ article.url }}">
+        {% endif %}
+        {% if article.image %}
+            <meta property="og:image" content="{{ article.image }}" />
+        {% endif %}
+    {% elif articles %}
+        {% set count = 0 %}
+        {% for article in articles %}
+            {% if article.category.slug == "what-if" and count != 1 %}
+                {% if article.formulas == 'True' %}
+                  <script type="text/x-mathjax-config">
+                    MathJax.Hub.Config({
+                    extensions: ["tex2jax.js"],
+                    messageStyle: "none",
+                    jax: ["input/TeX", "output/SVG"],
+                    tex2jax: {
+                        inlineMath: [ ['$','$'] ],
+                        displayMath: [ ['$$','$$'] ],
+                        processEscapes: true
+                    },
+                    TeX: {
+                      extensions: ["AMSmath.js", "AMSsymbols.js"]
+                    },
+                    "SVG": { availableFonts: ["TeX"],  linebreaks: { automatic: true } }
+                    });
+                  </script>
+                  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+                {% endif %}
+                {% if article.title %}
+                    <meta property="og:title" content="{{ article.title }}" />
+                {% endif %}
+                {% if article.description %}
+                    <meta property="og:description" content="{{ article.description }}" />
+                    <meta name="description" content="{{ article.description }}" />
+                {% endif %}
+                {% if article.url %}
+                    <meta property="og:url" content="{{ SITEURL }}/{{ article.url }}" />
+                    <link rel="canonical" href="{{ SITEURL }}/">
+                {% endif %}
+                {% if article.image %}
+                    <meta property="og:image" content="{{ article.image }}" />
+                {% endif %}
+                {% set count = 1 %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+	<link rel="canonical" href="{{ SITEURL }}">
+    {% endif %}
+
+    {% if FEED_ALL_ATOM %}
+        <link href="{{ SITEURL }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate"
+              title="{{ SITENAME }} ATOM Feed"/>
+    {% endif %}
+    {% if FEED_ALL_RSS %}
+        <link href="{{ SITEURL }}/{{ FEED_ALL_RSS }}" type="application/atom+xml" rel="alternate"
+              title="{{ SITENAME }} RSS Feed"/>
+    {% endif %}
+
+</head>
+<body>
+    <div class="all">
+        <header>
+
+            <a class="logo" href="{{ SITEURL }}">
+                <div class="logo-main">
+                    <div class="logo-trex"></div>
+                    <div class="logo-front"></div>
+                </div>
+                <img src="{{ SITEURL }}/theme/img/logo.png" class="logo-img" alt="Что если?"/>
+            </a>
+
+            <div class="header-title">
+                <span>Каждый четверг отвечаем на ваши гипотетические вопросы с точки зрения физики</span>
+                <b class="t1"></b><b class="t2"></b><b class="t3"></b>
+            </div>
+
+            <nav>
+                <a class="menu-button"></a>
+                <ul class="menu">
+                    {% block translations %}
+                        <li class="menu-item translations"><a href="{{ SITEURL }}/"><b></b><span>Переводы</span></a></li>
+                    {% endblock %}
+                    {% block news %}
+                        <li class="menu-item news"><a href="{{ SITEURL }}/news/"><b></b><span>Новости</span></a></li>
+                    {% endblock %}
+                    {% block help %}
+                        <li class="menu-item help"><a href="{{ SITEURL }}/help/"><b></b><span>Как нам помочь</span></a></li>
+                    {% endblock %}
+                    {% block about %}
+                        <li class="menu-item about"><a href="{{ SITEURL }}/about/"><b></b><span>О нас</span></a></li>
+                    {% endblock %}
+                    <li class="menu-item search"><form action="http://yandex.ru/yandsearch" method="GET"><input type="hidden" name="site" value="chtoes.li" /><input type="search" name="text"/></form></li>
+                </ul>
+                <ul class="menu-social">
+                    <li class="menu-item vk"><a href="https://vk.com/whatifrussian"><b title="Мы ВКонтакте"></b><span>Мы ВКонтакте</span></a></li>
+                    <li class="menu-item twitter"><a href="https://twitter.com/whatifrussian"><b title="Наш Twitter"></b><span>Наш Twitter</span></a></li>
+                </ul>
+            </nav>
+
+        </header>
+        <div class="content">
+            <div class="border-top"></div>
+            <div class="border-left"></div>
+            {% block content %}
+            {% endblock %}
+            <div class="border-bottom"></div>
+        </div>
+
+    </div>
+    <footer>
+        <a href="http://xkcd.ru"><img src="{{ SITEURL }}/theme/img/xkcd.png" alt="xkcd.ru" title="xkcd по-русски!"></a>
+
+        <p><strong>© What If? по-русски, 2014</strong><br><span>(а еще мы переводим комиксы на сайте <a href="http://xkcd.ru">xkcd.ru</a>!)</span></p>
+        <p>
+            В материалах сайта используются оригинальные тексты и изображения с сайта <a href="http://what-if.xkcd.com/">what-if.xkcd.com</a>.<br>
+            Материалы сайта источника и этого сайта распространяются по лицензии <a href="http://creativecommons.org/licenses/by-nc/2.5/">Creative Commons Attribution-NonCommercial 2.5 License</a>. Также авторы этого сайта полностью солидарны с <a href="http://xkcd.com/license.html">комментариями к лицензии</a>.
+        </p>
+        <p>
+            Ах, да, создатели этого сайта:
+            <a class="usericon whitehat" href="https://libc6.org/"><b></b>librarian</a>,
+            <a class="usericon bober" href="http://virtualmind.ru"><b></b>bober_maniac</a>,
+            <a class="usericon" href="https://vk.com/andront89"><b></b>Dront</a>,
+            <a class="usericon" href="https://vk.com/bakuutin"><b></b>Bakuutin</a>,
+            <a class="usericon female" href="http://birulik.ru"><b></b>birulik</a>,
+            <a class="usericon" href="http://vk.com/id56054954"><b></b>manwithrifle</a>,
+            <span class="usericon"><b></b>Irish_Cadle</span>,
+            <a class="usericon" href="http://vk.com/viktor.love"><b></b>nsinreal</a>,
+            <a class="usericon" href="http://vk.com/sarnetsky"><b></b>UGN</a>,
+            <a class="usericon tux" href="http://tkn.me"><b></b>Totktonada</a>,
+            <span class="usericon"><b></b>rlax</span>,
+            <span class="usericon"><b></b>Antitemniy</span>,
+            <a class="usericon blackhat" href="https://twitter.com/uncleLem"><b></b>uncle Lem</a>,
+            <span class="usericon"><b></b>borisano</span>,
+            <span class="usericon female"><b></b>daria_ko</span>,
+            <span class="usericon female"><b></b>murfel</span>,
+            <span class="usericon"><b></b>Бакланов</span>,
+            <span class="usericon female"><b></b>KatyMarinina</span>,
+            <span class="usericon female"><b></b>littledespair</span>,
+            <a class="usericon spider" href="http://deepasm.livejournal.com"><b></b>deepasm</a>,
+            <span class="usericon"><b></b>escyth</span>,
+            <span class="usericon"><b></b>Agamidae</span>,
+            <a class="usericon beret" href="https://vk.com/13x666"><b></b>13x666</a>,
+            <span class="usericon female"><b></b>klux</span>,
+            <span class="usericon"><b></b>porcupinity</span>,
+            <span class="usericon"><b></b>CreepMaH</span>,
+            <span class="usericon"><b></b>Sharkus</span>,
+            <span class="usericon"><b></b>Bytamine</span>,
+            <a class="usericon ninja" href="http://vk.com/the_seven"><b></b>Skyzerton</a>,
+            <a class="usericon meth" href="https://vk.com/id262346182"><b></b>hildigarda</a>,
+            <a class="usericon milena" href="https://vk.com/plamenika"><b></b>Milena</a>.
+        </p>
+        <p style="opacity: 0.6">Дизайн — <a class="usericon beret" href="https://vk.com/13x666"><b></b>13x666</a></p>
+    </footer>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter24642143 = new Ya.Metrika({id:24642143,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/24642143" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>

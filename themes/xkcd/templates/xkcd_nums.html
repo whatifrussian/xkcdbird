@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ SITENAME }} — Nums{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <h1>Все переводы (по номерам)</h1>
+
+        {% set article_link = SITEURL + "/nums/" %}
+        {% include 'includes/social.html' %}
+
+        {% for num, article in nums %}
+            {% if article %}
+                <a href="{{ SITEURL }}/{{ article.url }}">{{ num }}</a>&nbsp;
+            {% else %}
+                {{ num }}&nbsp;
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock content %}

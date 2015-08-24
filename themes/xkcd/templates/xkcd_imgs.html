@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ SITENAME }} — Imgs{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <h1>Все переводы картинками</h1>
+
+        {% set article_link = SITEURL + "/imgs/" %}
+        {% include 'includes/social.html' %}
+
+        {% for article in articles %}
+                <a href="{{ SITEURL }}/{{ article.url }}"><img src="{{ article.microimage }}" title="{{ article.sourcenum }} {{ article.title }}" /></a>
+        {% endfor %}
+    </div>
+{% endblock content %}
