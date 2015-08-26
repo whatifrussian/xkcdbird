@@ -47,6 +47,7 @@ CATEGORIES_SAVE_AS = ''
 
 NUMS_SAVE_AS = 'num/index.html'
 IMGS_SAVE_AS = 'img/index.html'
+RANDOM_SAVE_AS = 'random/index.html'
 
 
 # Currently that isn’t not working, see

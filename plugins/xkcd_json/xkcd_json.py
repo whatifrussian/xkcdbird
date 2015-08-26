@@ -77,6 +77,26 @@ class SpecialPagesGenerator(Generator):
         writer.write_file(nums_path, nums_template, self.context, nums=nums)
         writer.write_file(imgs_path, imgs_template, self.context, articles=articles)
 
+class XkcdRandomGenerator(Generator):
+
+    def __init__(self, *args, **kwargs):
+        super(XkcdRandomGenerator, self).__init__(*args, **kwargs)
+
+        self.category = self.settings.get('ARTICLE_JSON_CATEGORY_SLUG')
+        self.path_random = self.settings.get('RANDOM_SAVE_AS')
+
+
+    def generate_output(self, writer):
+        all_articles = self.context['articles']
+        random_template = self.get_template('xkcd_random')
+
+        articles = [article for article in all_articles if article.category.slug == self.category]
+
+        random_path = os.path.join(self.output_path, self.path_random)
+
+        articles.sort(key=(lambda x: int(x.sourcenum)), reverse=(True))
+
+        writer.write_file(random_path, random_template, self.context, articles=articles)
 
 def get_generators(generators):
     return XkcdJsonGenerator
@@ -84,7 +104,12 @@ def get_generators(generators):
 def get_special(generators):
     return SpecialPagesGenerator
 
+def get_random(generators):
+    return XkcdRandomGenerator
+
 
 def register():
     signals.get_generators.connect(get_generators)
     signals.get_generators.connect(get_special)
+    signals.get_generators.connect(get_random)
+
